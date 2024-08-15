@@ -1,47 +1,73 @@
 #include <iostream>
 using namespace std;
 
-int *findFirstAndLastPosition(int arr[], int n, int x)
+int first_position(int *arr, int n, int x)
 {
+    int l = 0;
+    int h = n - 1;
     int first = -1;
-    int last = -1;
-    int i = 0;
 
-    while (i < n)
+    while (l <= h)
     {
-        if (arr[i] == x)
+        int mid = (l + h) / 2;
+
+        if (arr[mid] == x)
         {
-            first = i;
-            while (arr[i] == x)
-            {
-                i++;
-            }
-            last = i - 1;
-            break;
+            first = mid;
+            h = mid - 1;
         }
 
-        i++;
+        else if (arr[mid] < x)
+        {
+            l = mid + 1;
+        }
+        else
+        {
+            h = mid - 1;
+        }
     }
 
-    int *temp = new int[2];
-    temp[0] = first;
-    temp[1] = last;
+    return first;
+}
 
-    return temp;
+int last_position(int *arr, int n, int x)
+{
+    int l = 0;
+    int h = n - 1;
+    int last = -1;
+
+    while (l <= h)
+    {
+        int mid = (l + h) / 2;
+
+        if (arr[mid] == x)
+        {
+            last = mid;
+            l = mid + 1;
+        }
+
+        else if (arr[mid] < x)
+        {
+            l = mid + 1;
+        }
+        else
+        {
+            h = mid - 1;
+        }
+    }
+
+    return last;
 }
 
 int main()
 {
-    int arr[] = {1, 2, 3, 4, 4, 5, 6};
+    int arr[] = {1, 2, 3, 4, 4, 6, 6};
     int n = sizeof(arr) / sizeof(arr[0]);
     int x = 4;
 
-    int *result = findFirstAndLastPosition(arr, n, x);
+    int first = first_position(arr, n, 6);
+    int last = last_position(arr, n, 6);
 
-    cout << "First position: " << result[0] << endl;
-    cout << "Last position: " << result[1] << endl;
-    
-    delete[] result;
-
+    cout<<"First Position is: "<<first <<" "<<"and " <<"Last position is: "<<last<<endl;
     return 0;
 }
